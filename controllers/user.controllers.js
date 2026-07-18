@@ -7,6 +7,7 @@ const users = [
     }
 ];
 
+
 export const postSignUpUser = (req, res, next) => {
     const { email, password, name } = req.body;
 
