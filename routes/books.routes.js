@@ -1,7 +1,7 @@
 import { Router } from "express";
-import {getByCodeBooks ,postBooks, getBooks, putBooks, patchBorrowBooks, patchReturnBooks,deleteBooks } from '../controllers/books.controllers'
+import {getByCodeBooks ,postBooks, getBooks, putBooks, patchBorrowBooks, patchReturnBooks,deleteBooks } 
+from '../controllers/books.controllers.js'
 const router = Router();
-
 
 
 //2.3
@@ -18,11 +18,11 @@ router.patch('/:code/borrow',patchBorrowBooks );
 
 
 //6.3
-app.patch('/books/:code/return', patchReturnBooks);
+router.patch('/books/:code/return', patchReturnBooks);
 //7.3
-app.delete('/:code',deleteBooks );
+router.delete('/:code',deleteBooks );
 
-app.get('/books', getByCodeBooks);
+router.get('/books', getByCodeBooks);
 
 
 export default router;

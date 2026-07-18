@@ -21,26 +21,15 @@ export const getByCodeBooks = (req, res) => {
 export const postBooks = (req, res) => {
     const newBook = req.body;
     books.push(newBook);
+
+    
     res.status(201).send(newBook);
 }
 
-export const getBooks = (req, res) => {
-    let filteredBooks = [...books];
+export const getBooks = ('/books', (req, res) => {
+  res.send(books);
+});
 
-    // חיפוש לפי שם (או קריטריון אחר)
-    if (req.query.name) {
-        filteredBooks = filteredBooks.filter(b => b.name.includes(req.query.name));
-    }
-
-    // Pagination
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-
-    const paginatedBooks = filteredBooks.slice(startIndex, endIndex);
-    res.json(paginatedBooks);
-}
 export const putBooks = (req, res) => {
     const book = books.find(b => b.code === parseInt(req.params.code));
     if (!book) return res.status(404).send('הספר לא נמצא');

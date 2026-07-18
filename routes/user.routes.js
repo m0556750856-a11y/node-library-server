@@ -1,8 +1,12 @@
 
-import {postSignInUser,postSignUpUser,getUser} from '../controllers/user.controllers'
-const express = require('express');
+
+import express from 'express';
+import {postSignInUser,postSignUpUser,getUser} from '../controllers/user.controllers.js';
+
+
 const router = express.Router();
-const users = require('./users');
+
+
 
 
 // הרשמה (Sign-up)
@@ -14,4 +18,4 @@ router.post('/signin',postSignInUser );
 // הצגת כל המשתמשים
 router.get('/', getUser);
 
-module.exports = router;
+export default router;
