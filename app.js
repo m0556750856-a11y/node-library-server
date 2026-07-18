@@ -38,7 +38,7 @@ app.use(addCurrentDate);
 
 app.use(printCurrentDate);
 
-
+app.use(errorHandler);
 app.listen(5000, () => {
   console.log('Server is running on http://localhost:5000')
 })
