@@ -42,30 +42,60 @@ export const putBooks = (req, res) => {
 
     res.json(book);
 }
-export const patchBorrowBooks = (req, res) => {
+export const patchBorrowBooks = (req, res, next) => {
     const book = books.find(b => b.code === parseInt(req.params.code));
-    if (!book) return res.status(404).send('הספר לא נמצא');
-    if (book.isBorrowed) return res.status(400).send('הספר כבר מושאל'); 
+    
+    if (!book) {
+        const error = new Error('הספר לא נמצא');
+        error.status = 404;
+        error.type = 'not found';
+        return next(error); // העברה ל-errorHandler
+    }
+    
+    if (book.isBorrowed) {
+        const error = new Error('הספר כבר מושאל');
+        error.status = 400;
+        error.type = 'bad request';
+        return next(error); // העברה ל-errorHandler
+    }
 
     book.isBorrowed = true;
     book.loans.push({ 
         borrowDate: new Date().toISOString().split('T')[0], 
         customerCode: req.body.customerCode 
-    })
+    });
+    
+    res.json(book); 
 }
 export const patchReturnBooks = (req, res) => {
     const book = books.find(b => b.code === parseInt(req.params.code));
-    if (!book) return res.status(404).send('הספר לא נמצא');
-    if (!book.isBorrowed) return res.status(400).send('הספר לא מושאל');
+    if (!book) {
+        const error = new Error('הספר לא נמצא');
+        error.status = 404;
+        error.type = 'not found';
+        return next(error); 
+    }
+
+    if (!book.isBorrowed) {
+        const error = new Error('הספר לא מושאל');
+        error.status = 400;
+        error.type = 'bad request';
+        return next(error);
+    }
 
     book.isBorrowed = false;
     book.loans[book.loans.length - 1].returnDate = new Date().toISOString().split('T')[0];
 
     res.json(book);
 }
-export const deleteBooks = (req, res) => {
+export const deleteBooks = (req, res, next) => {
     const index = books.findIndex(b => b.code === parseInt(req.params.code));
-    if (index === -1) return res.status(404).send('הספר לא נמצא');
+    if (index === -1) {
+        const error = new Error('הספר לא נמצא');
+        error.status = 404;
+        error.type = 'not found';
+        return next(error);
+    }
     books = books.filter(p => p.code != req.params.code);
     res.send('success');
 }

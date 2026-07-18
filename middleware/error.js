@@ -14,5 +14,5 @@ export const errorHandler = (err, req, res, next) => {
       
     };
 
-    res.status(err.status).json({ error: error4Client });
+    res.status(err.status).json({ error: errorClient });
 };
